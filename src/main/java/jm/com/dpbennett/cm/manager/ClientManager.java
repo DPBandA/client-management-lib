@@ -43,7 +43,10 @@ import jm.com.dpbennett.sm.util.BeanUtils;
 import jm.com.dpbennett.sm.util.MainTabView;
 import jm.com.dpbennett.hrm.validator.AddressValidator;
 import jm.com.dpbennett.hrm.validator.ContactValidator;
+import jm.com.dpbennett.sm.manager.SystemManager.LoginActionListener;
+import jm.com.dpbennett.sm.manager.SystemManager.SearchActionListener;
 import jm.com.dpbennett.sm.util.PrimeFacesUtils;
+import jm.com.dpbennett.sm.util.TabPanel;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 
@@ -51,7 +54,8 @@ import org.primefaces.event.CellEditEvent;
  *
  * @author Desmond Bennett
  */
-public class ClientManager implements Serializable {
+public class ClientManager implements Serializable,
+        SearchActionListener, LoginActionListener {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
@@ -168,6 +172,8 @@ public class ClientManager implements Serializable {
         selectedContact = null;
         selectedAddress = null;
         searchText = "";
+        
+        getSystemManager().addSingleLoginActionListener(this);
     }
 
     public void reset() {
@@ -597,6 +603,57 @@ public class ClientManager implements Serializable {
             System.out.println(e);
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public void doDefaultSearch() {
+         switch (getSystemManager().getDashboard().getSelectedTabId()) {
+            case "Client Management":
+                //getPurchasingManager().doDefaultSearch();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void doLogin() {
+        
+        initDashboard();
+        initMainTabView();
+        
+        getSystemManager().addSingleSearchActionListener(this);
+        
+    }
+    
+     private void initDashboard() {
+
+        getSystemManager().getDashboard().reset(getUser());
+
+        if (getUser().getModules().getCrmModule()) {
+            getSystemManager().addDashboardTab(
+                    new TabPanel("Client Management", "Client Management"));
+        }
+
+        if (getUser().getModules().getAdminModule()) {
+            getSystemManager().addDashboardTab(
+                    new TabPanel("System Administration", "System Administration"));
+        }
+
+    }
+     
+     private void initMainTabView() {
+
+        getSystemManager().getMainTabView().reset(getUser());
+
+        if (getUser().getModules().getAdminModule()) {
+            getMainTabView().openTab("System Administration");
+        }
+
+        if (getUser().getModules().getCrmModule()) {
+            getMainTabView().openTab("Client Management");
+        }
+
     }
 
 }
