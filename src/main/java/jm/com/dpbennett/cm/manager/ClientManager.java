@@ -651,7 +651,7 @@ public class ClientManager implements Serializable,
         }
 
         if (getUser().getModules().getCrmModule()) {
-            getMainTabView().openTab("Client Management");
+            getMainTabView().openTab("Clients");
         }
 
     }
