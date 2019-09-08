@@ -76,7 +76,7 @@ public class ClientManager implements Serializable,
     public ClientManager() {
         init();
     }
-    
+
     public String getApplicationHeader() {
         return "Client Management";
     }
@@ -172,7 +172,7 @@ public class ClientManager implements Serializable,
         selectedContact = null;
         selectedAddress = null;
         searchText = "";
-        
+
         getSystemManager().addSingleLoginActionListener(this);
     }
 
@@ -607,7 +607,7 @@ public class ClientManager implements Serializable,
 
     @Override
     public void doDefaultSearch() {
-         switch (getSystemManager().getDashboard().getSelectedTabId()) {
+        switch (getSystemManager().getDashboard().getSelectedTabId()) {
             case "Client Management":
                 //getPurchasingManager().doDefaultSearch();
                 break;
@@ -618,37 +618,42 @@ public class ClientManager implements Serializable,
 
     @Override
     public void doLogin() {
-        
+
         initDashboard();
         initMainTabView();
-        
+
         getSystemManager().addSingleSearchActionListener(this);
-        
+
     }
-    
-     private void initDashboard() {
 
-        getSystemManager().getDashboard().reset(getUser());
+    private void initDashboard() {
 
+//        getSystemManager().getDashboard().reset(getUser());
+        
         if (getUser().getModules().getCrmModule()) {
             getSystemManager().addDashboardTab(
                     new TabPanel("Client Management", "Client Management"));
         }
 
-        if (getUser().getModules().getAdminModule()) {
-            getSystemManager().addDashboardTab(
-                    new TabPanel("System Administration", "System Administration"));
-        }
+//        if (getUser().getModules().getHrmModule()) {
+//            getSystemManager().addDashboardTab(
+//                    new TabPanel("Human Resource", "Human Resource"));
+//        }
+//
+//        if (getUser().getModules().getAdminModule()) {
+//            getSystemManager().addDashboardTab(
+//                    new TabPanel("System Administration", "System Administration"));
+//        }
 
     }
-     
-     private void initMainTabView() {
 
-        getSystemManager().getMainTabView().reset(getUser());
+    private void initMainTabView() {
 
-        if (getUser().getModules().getAdminModule()) {
-            getMainTabView().openTab("System Administration");
-        }
+//        getSystemManager().getMainTabView().reset(getUser());
+//
+//        if (getUser().getModules().getAdminModule()) {
+//            getMainTabView().openTab("System Administration");
+//        }
 
         if (getUser().getModules().getCrmModule()) {
             getMainTabView().openTab("Clients");
