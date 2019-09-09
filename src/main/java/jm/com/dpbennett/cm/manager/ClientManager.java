@@ -38,6 +38,7 @@ import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Tax;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.fm.manager.FinanceManager;
 import jm.com.dpbennett.sm.manager.SystemManager;
 import jm.com.dpbennett.sm.util.BeanUtils;
 import jm.com.dpbennett.sm.util.MainTabView;
@@ -46,7 +47,6 @@ import jm.com.dpbennett.hrm.validator.ContactValidator;
 import jm.com.dpbennett.sm.manager.SystemManager.LoginActionListener;
 import jm.com.dpbennett.sm.manager.SystemManager.SearchActionListener;
 import jm.com.dpbennett.sm.util.PrimeFacesUtils;
-import jm.com.dpbennett.sm.util.TabPanel;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 
@@ -89,7 +89,11 @@ public class ClientManager implements Serializable,
     public SystemManager getSystemManager() {
         return BeanUtils.findBean("systemManager");
     }
-
+    
+     public FinanceManager getFinanceManager() {
+        return BeanUtils.findBean("financeManager");
+    }
+  
     public List<Client> completeActiveClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
@@ -174,6 +178,10 @@ public class ClientManager implements Serializable,
         searchText = "";
 
         getSystemManager().addSingleLoginActionListener(this);
+        getSystemManager().addSingleSearchActionListener(this);
+        
+        // Just to force loading of the FinanceManager session bean.
+        getFinanceManager();
     }
 
     public void reset() {
@@ -621,39 +629,16 @@ public class ClientManager implements Serializable,
 
         initDashboard();
         initMainTabView();
-
-        getSystemManager().addSingleSearchActionListener(this);
-
     }
 
     private void initDashboard() {
 
-//        getSystemManager().getDashboard().reset(getUser());
-        
         if (getUser().getModules().getCrmModule()) {
-            getSystemManager().addDashboardTab(
-                    new TabPanel("Client Management", "Client Management"));
+            getSystemManager().getDashboard().openTab("Client Management");
         }
-
-//        if (getUser().getModules().getHrmModule()) {
-//            getSystemManager().addDashboardTab(
-//                    new TabPanel("Human Resource", "Human Resource"));
-//        }
-//
-//        if (getUser().getModules().getAdminModule()) {
-//            getSystemManager().addDashboardTab(
-//                    new TabPanel("System Administration", "System Administration"));
-//        }
-
     }
 
     private void initMainTabView() {
-
-//        getSystemManager().getMainTabView().reset(getUser());
-//
-//        if (getUser().getModules().getAdminModule()) {
-//            getMainTabView().openTab("System Administration");
-//        }
 
         if (getUser().getModules().getCrmModule()) {
             getMainTabView().openTab("Clients");
