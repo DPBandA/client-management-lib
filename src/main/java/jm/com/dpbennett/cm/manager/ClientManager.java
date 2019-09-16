@@ -45,7 +45,6 @@ import jm.com.dpbennett.sm.util.MainTabView;
 import jm.com.dpbennett.hrm.validator.AddressValidator;
 import jm.com.dpbennett.hrm.validator.ContactValidator;
 import jm.com.dpbennett.sm.manager.SystemManager.LoginActionListener;
-import jm.com.dpbennett.sm.manager.SystemManager.SearchActionListener;
 import jm.com.dpbennett.sm.util.PrimeFacesUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
@@ -54,8 +53,7 @@ import org.primefaces.event.CellEditEvent;
  *
  * @author Desmond Bennett
  */
-public class ClientManager implements Serializable,
-        SearchActionListener, LoginActionListener {
+public class ClientManager implements Serializable, LoginActionListener {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
@@ -178,7 +176,6 @@ public class ClientManager implements Serializable,
         searchText = "";
 
         getSystemManager().addSingleLoginActionListener(this);
-        getSystemManager().addSingleSearchActionListener(this);
         
         // Just to force loading of the FinanceManager session bean.
         getFinanceManager();
@@ -613,11 +610,9 @@ public class ClientManager implements Serializable,
         }
     }
 
-    @Override
     public void doDefaultSearch() {
         switch (getSystemManager().getDashboard().getSelectedTabId()) {
             case "Client Management":
-                //getPurchasingManager().doDefaultSearch();
                 break;
             default:
                 break;
