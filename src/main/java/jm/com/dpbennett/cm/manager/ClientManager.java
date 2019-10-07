@@ -38,7 +38,6 @@ import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Tax;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.fm.manager.FinanceManager;
 import jm.com.dpbennett.sm.manager.SystemManager;
 import jm.com.dpbennett.sm.util.BeanUtils;
 import jm.com.dpbennett.sm.util.MainTabView;
@@ -87,11 +86,11 @@ public class ClientManager implements Serializable, LoginActionListener {
     public SystemManager getSystemManager() {
         return BeanUtils.findBean("systemManager");
     }
-    
-     public FinanceManager getFinanceManager() {
-        return BeanUtils.findBean("financeManager");
-    }
-  
+
+//    public FinanceManager getFinanceManager() {
+//        return BeanUtils.findBean("financeManager");
+//    }
+
     public List<Client> completeActiveClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
@@ -176,9 +175,9 @@ public class ClientManager implements Serializable, LoginActionListener {
         searchText = "";
 
         getSystemManager().addSingleLoginActionListener(this);
-        
+
         // Just to force loading of the FinanceManager session bean.
-        getFinanceManager();
+//        getFinanceManager();
     }
 
     public void reset() {
