@@ -23,7 +23,7 @@ package jm.com.dpbennett.cm.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.FacesConverter;
-import jm.com.dpbennett.business.entity.Client;
+import jm.com.dpbennett.business.entity.cm.Client;
 import jm.com.dpbennett.sm.converter.ConverterAdapter;
 
 /**
