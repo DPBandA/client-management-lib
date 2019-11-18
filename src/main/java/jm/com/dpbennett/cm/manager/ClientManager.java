@@ -35,7 +35,7 @@ import jm.com.dpbennett.business.entity.cm.Client;
 import jm.com.dpbennett.business.entity.hrm.Contact;
 import jm.com.dpbennett.business.entity.fm.Discount;
 import jm.com.dpbennett.business.entity.hrm.Internet;
-import jm.com.dpbennett.business.entity.jmts.JobManagerUser;
+import jm.com.dpbennett.business.entity.hrm.User;
 import jm.com.dpbennett.business.entity.fm.Tax;
 import jm.com.dpbennett.business.entity.util.BusinessEntityUtils;
 import jm.com.dpbennett.sm.manager.SystemManager;
@@ -58,7 +58,6 @@ public class ClientManager implements Serializable, LoginActionListener {
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
-    private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
     private Client selectedClient;
     private Contact selectedContact;
@@ -161,13 +160,11 @@ public class ClientManager implements Serializable, LoginActionListener {
     }
 
     public void openClientsTab() {
-        setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         getMainTabView().openTab("Clients");
     }
 
     private void init() {
-        isClientNameAndIdEditable = false; // tk put as transient in Client
         foundClients = new ArrayList<>();
         selectedClient = null;
         selectedContact = null;
@@ -333,15 +330,7 @@ public class ClientManager implements Serializable, LoginActionListener {
         return getSelectedClient().getDefaultAddress();
     }
 
-    public Boolean getIsClientNameAndIdEditable() {
-        return isClientNameAndIdEditable;
-    }
-
-    public void setIsClientNameAndIdEditable(Boolean isClientNameAndIdEditable) {
-        this.isClientNameAndIdEditable = isClientNameAndIdEditable;
-    }
-
-    public JobManagerUser getUser() {
+    public User getUser() {
         return getSystemManager().getUser();
     }
 
@@ -389,9 +378,7 @@ public class ClientManager implements Serializable, LoginActionListener {
 
     public void createNewClient() {
         createNewClient(true);
-
-        setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-
+        
         getMainTabView().openTab("Clients");
 
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
