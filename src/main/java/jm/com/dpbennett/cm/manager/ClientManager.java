@@ -164,18 +164,18 @@ public class ClientManager implements Serializable, AuthenticationListener {
     }
 
     private void init() {
-        foundClients = new ArrayList<>();
-        selectedClient = null;
-        selectedContact = null;
-        selectedAddress = null;
-        searchText = "";
+        reset();
 
         getSystemManager().addSingleAuthenticationListener(this);
 
     }
 
     public void reset() {
-        init();
+        foundClients = new ArrayList<>();
+        selectedClient = null;
+        selectedContact = null;
+        selectedAddress = null;
+        searchText = "";
     }
 
     public Client getSelectedClient() {
@@ -625,7 +625,7 @@ public class ClientManager implements Serializable, AuthenticationListener {
 
     @Override
     public void completeLogout() {
-        System.out.println("Complete logout...");
+        reset();
     }
 
 }
