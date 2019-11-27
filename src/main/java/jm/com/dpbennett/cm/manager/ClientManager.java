@@ -43,7 +43,7 @@ import jm.com.dpbennett.sm.util.BeanUtils;
 import jm.com.dpbennett.sm.util.MainTabView;
 import jm.com.dpbennett.hrm.validator.AddressValidator;
 import jm.com.dpbennett.hrm.validator.ContactValidator;
-import jm.com.dpbennett.sm.manager.SystemManager.LoginActionListener;
+import jm.com.dpbennett.sm.Authentication.AuthenticationListener;
 import jm.com.dpbennett.sm.util.PrimeFacesUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
@@ -52,7 +52,7 @@ import org.primefaces.event.CellEditEvent;
  *
  * @author Desmond Bennett
  */
-public class ClientManager implements Serializable, LoginActionListener {
+public class ClientManager implements Serializable, AuthenticationListener {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
@@ -89,7 +89,6 @@ public class ClientManager implements Serializable, LoginActionListener {
 //    public FinanceManager getFinanceManager() {
 //        return BeanUtils.findBean("financeManager");
 //    }
-
     public List<Client> completeActiveClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
@@ -171,10 +170,8 @@ public class ClientManager implements Serializable, LoginActionListener {
         selectedAddress = null;
         searchText = "";
 
-        getSystemManager().addSingleLoginActionListener(this);
+        getSystemManager().addSingleAuthenticationListener(this);
 
-        // Just to force loading of the FinanceManager session bean.
-//        getFinanceManager();
     }
 
     public void reset() {
@@ -378,7 +375,7 @@ public class ClientManager implements Serializable, LoginActionListener {
 
     public void createNewClient() {
         createNewClient(true);
-        
+
         getMainTabView().openTab("Clients");
 
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
@@ -605,13 +602,6 @@ public class ClientManager implements Serializable, LoginActionListener {
         }
     }
 
-    @Override
-    public void doLogin() {
-
-        initDashboard();
-        initMainTabView();
-    }
-
     private void initDashboard() {
 
         if (getUser().getModules().getCrmModule()) {
@@ -625,6 +615,17 @@ public class ClientManager implements Serializable, LoginActionListener {
             getMainTabView().openTab("Clients");
         }
 
+    }
+
+    @Override
+    public void completeLogin() {
+        initDashboard();
+        initMainTabView();
+    }
+
+    @Override
+    public void completeLogout() {
+        System.out.println("Complete logout...");
     }
 
 }
