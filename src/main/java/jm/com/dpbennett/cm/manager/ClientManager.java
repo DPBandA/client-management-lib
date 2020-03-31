@@ -336,7 +336,7 @@ public class ClientManager implements Serializable, AuthenticationListener {
 
     public void editSelectedClient() {
 
-        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 500, 700);
     }
 
     public void updateClient() {
@@ -378,7 +378,7 @@ public class ClientManager implements Serializable, AuthenticationListener {
 
         getMainTabView().openTab("Clients");
 
-        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
+        editSelectedClient();
     }
 
     public void createNewClient(Boolean active) {
