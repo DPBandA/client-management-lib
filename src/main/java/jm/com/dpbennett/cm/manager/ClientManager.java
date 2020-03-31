@@ -248,9 +248,9 @@ public class ClientManager implements Serializable, AuthenticationListener {
     public void doClientSearch() {
         if (searchText.trim().length() > 1) {
             if (getIsActiveClientsOnly()) {
-                foundClients = Client.findActiveClientsByFirstPartOfName(getEntityManager1(), searchText);
+                foundClients = Client.findActiveClientsByAnyPartOfName(getEntityManager1(), searchText);
             } else {
-                foundClients = Client.findClientsByFirstPartOfName(getEntityManager1(), searchText);
+                foundClients = Client.findClientsByAnyPartOfName(getEntityManager1(), searchText);
             }
         } else {
             foundClients = new ArrayList<>();
