@@ -86,9 +86,6 @@ public class ClientManager implements Serializable, AuthenticationListener {
         return BeanUtils.findBean("systemManager");
     }
 
-//    public FinanceManager getFinanceManager() {
-//        return BeanUtils.findBean("financeManager");
-//    }
     public List<Client> completeActiveClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
