@@ -22,6 +22,7 @@ package jm.com.dpbennett.cm.manager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
@@ -406,6 +407,25 @@ public class ClientManager implements Serializable, AuthenticationListener {
     public void cancelClientEdit(ActionEvent actionEvent) {
 
         setIsDirty(false);
+
+        // Remove unsaved addresses
+        Iterator addressIterator = getSelectedClient().getAddresses().iterator();
+        Address address;
+        while (addressIterator.hasNext()) {
+            address = (Address) addressIterator.next();
+            if (address.getId() == null) {
+                addressIterator.remove();
+            }
+        }
+        // Remove unsaved contacts
+        Iterator contactIterator = getSelectedClient().getContacts().iterator();
+        Contact contact;
+        while (contactIterator.hasNext()) {
+            contact = (Contact) contactIterator.next();
+            if (contact.getId() == null) {
+                contactIterator.remove();
+            }
+        }
 
         PrimeFaces.current().dialog().closeDynamic(null);
     }
