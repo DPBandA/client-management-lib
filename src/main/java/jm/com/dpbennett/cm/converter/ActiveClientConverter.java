@@ -39,7 +39,6 @@ public class ActiveClientConverter extends ConverterAdapter {
 
         if (client == null) {
             client = new Client(submittedValue);
-            client.setName(submittedValue);
         } 
         
         return client;

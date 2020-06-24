@@ -66,6 +66,7 @@ public class ClientManager implements Serializable, AuthenticationListener {
     private String searchText;
     private List<Client> foundClients;
     private Boolean edit;
+    private String clientDialogTitle;
 
     /**
      * Creates a new instance of ClientManager
@@ -75,7 +76,17 @@ public class ClientManager implements Serializable, AuthenticationListener {
     }
 
     public String getApplicationHeader() {
+        
         return "Client Management";
+    }
+
+    public String getClientDialogTitle() {
+
+        return clientDialogTitle;
+    }
+
+    public void setClientDialogTitle(String clientDialogTitle) {
+        this.clientDialogTitle = clientDialogTitle;
     }
 
     /**
